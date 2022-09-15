@@ -1,29 +1,40 @@
-import "./App.css";
+import React from "react";
 import Signup from "./components/Signup";
-import React, {createContext, useContext, useEffect, useRef} from 'react';
-import {Button, Container} from 'react-bootstrap';
-// import {ThemeProvider, useDarkTheme} from './ThemeContext';
-import {AuthProvider} from './contexts/AuthContext';
+import { Container } from "react-bootstrap";
+import { AuthProvider } from "./contexts/AuthContext";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+import Navigation from "./components/Navigation";
+import PrivateRoute from "./PrivateRoute"
+// import ForgotPassword from "./components/ForgotPassword"
+// import UpdateProfile from "./components/UpdateProfile"
 
-export default function App() {
-
-  const renderCount = useRef(1);
-  useEffect(()=> {
-    renderCount.current = renderCount.current + 1
-  })
-
+function App() {
   return (
-    <AuthProvider>
-      <Container
-        className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}
-      >
-        {`Render Count: ${renderCount.current}`}
-        {/*<Button onClick={useDarkTheme}>Toggle</Button>*/}
-        <div className="w-100" style={{ maxWidth: "400px " }}>
-          <Signup />
-        </div>
-      </Container>
-    // </AuthProvider>
+    <Container
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh" }}
+    >
+      <div className="w-100" style={{ maxWidth: "400px" }}>
+        <h1>App</h1>
+        <Navigation />
+        <Router>
+          <Link to="/signup">Signup</Link>
+
+          <AuthProvider>
+            <Routes>
+              <PrivateRoute path="/profile" element={<Dashboard/>} />
+              {/*<PrivateRoute path="/update-profile" component={UpdateProfile} />*/}
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              {/*<Route path="/forgot-password" component={ForgotPassword} />*/}
+            </Routes>
+          </AuthProvider>
+        </Router>
+      </div>
+    </Container>
   );
 }
+
+export default App;
