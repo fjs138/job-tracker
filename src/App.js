@@ -21,10 +21,9 @@ function App() {
         <Navigation />
         <Router>
           <Link to="/signup">Signup</Link>
-
           <AuthProvider>
             <Routes>
-              <PrivateRoute path="/profile" element={<Dashboard/>} />
+              <Route path="/profile" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
               {/*<PrivateRoute path="/update-profile" component={UpdateProfile} />*/}
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
